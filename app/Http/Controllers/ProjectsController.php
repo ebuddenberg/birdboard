@@ -23,8 +23,10 @@ class ProjectsController extends Controller
     {
         $attributes = request()->validate([
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
             ]);
+
+        $attributes['owner_id'] = aut()->id();
 
         Project::create($attributes);
 
