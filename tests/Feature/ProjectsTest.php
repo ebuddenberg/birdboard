@@ -13,6 +13,8 @@ class ProjectsTest extends TestCase
     /** @test */
     public function only_authenticated_users_can_create_projects()
     {
+
+
         $attributes = factory('App\Project')->raw();
 
         $this->post('/projects', $attributes)->assertRedirect('login');
@@ -21,8 +23,7 @@ class ProjectsTest extends TestCase
     /** @test */
     public function a_user_can_create_a_project()
     {
-        // $this->withoutExceptionHandling();
-
+        $this->withoutExceptionHandling();
         $this->actingAs(factory('App\User')->create());
 
         $attributes = [

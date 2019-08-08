@@ -9,7 +9,7 @@ class ProjectsController extends Controller
 {
     public function index()
     {
-        $projects = Project::all();
+        $projects = auth()->user()->projects;
 
         return view('projects.index', compact('projects'));
     }
@@ -26,9 +26,11 @@ class ProjectsController extends Controller
             'description' => 'required'
             ]);
 
-        $attributes['owner_id'] = auth()->id();
+        // $attributes['owner_id'] = auth()->id(); //This is the same as below but below is refactored
 
-        Project::create($attributes);
+        auth()->user()->projects()->create($attributes);
+
+        // Project::create($attributes); //Creating the project with the old code commented above. The refactored line takes care of it already
 
         return redirect('/projects');
     }
