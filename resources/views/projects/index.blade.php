@@ -5,13 +5,15 @@
         <a href="/projects/create">New Project</a>
     </div>
 
-    <ul>
+    <div>
         @forelse ($projects as $project)
-        <li>
-            <a href="{{ $project->path() }}">{{ $project->title }}</a>
-        </li>
+            <div>
+                <h3>{{ $project->title }}</h3>
+
+                <div>{{ $project->description }}</div>
+            </div>
         @empty
-        <li>No projects yet.</li>
+            <div>No projects yet.</div>
         @endforelse
-    </ul>
+    </div>
 @endsection
