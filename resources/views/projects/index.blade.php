@@ -5,9 +5,9 @@
         <a href="/projects/create">New Project</a>
     </div>
 
-    <div>
+    <div class="flex">
         @forelse ($projects as $project)
-            <div>
+            <div class="bg-white mr-4 rounded shadow">
                 <h3>{{ $project->title }}</h3>
 
                 <div>{{ $project->description }}</div>
