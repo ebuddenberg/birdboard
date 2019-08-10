@@ -12,3 +12,11 @@
 @tailwind components;
 
 @tailwind utilities;
+
+.button {
+    background: #47cdff;
+    color: white;
+    box-shadow: 0 2px 7px 0 #b0eaff;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem;
+}
