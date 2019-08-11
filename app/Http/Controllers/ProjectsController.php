@@ -37,10 +37,10 @@ class ProjectsController extends Controller
 
         // $attributes['owner_id'] = auth()->id(); //This is the same as below but below is refactored
 
-        auth()->user()->projects()->create($attributes);
-
         // Project::create($attributes); //Creating the project with the old code commented above. The refactored line takes care of it already
 
-        return redirect('/projects');
+        $project = auth()->user()->projects()->create($attributes);
+
+        return redirect($project->path());
     }
 }
