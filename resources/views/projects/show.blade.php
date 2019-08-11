@@ -20,13 +20,13 @@
                     {{-- tasks --}}
                     @foreach ($project->tasks as $task)
                         <div class="card mb-3">
-                            <form action="{{ $project->path() . '/tasks/' . $task->id }}">
+                            <form action="{{ $task->path() }}" method="POST">
                                 @method('PATCH')
                                 @csrf
 
                                 <div class="flex">
-                                    <input name="body" value="{{ $task->body }}" class="w-full">
-                                    <input name="completed" type="checkbox" onChange="this.form.submit()">
+                                    <input name="body" value="{{ $task->body }}" class="w-full {{ $task->completed ? 'text-gray-500' : '' }}">
+                                    <input name="completed" type="checkbox" onChange="this.form.submit()" {{ $task->completed ? 'checked' : '' }}>
                                 </div>
                             </form>
                         </div>
