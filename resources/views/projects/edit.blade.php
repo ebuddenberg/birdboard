@@ -9,7 +9,7 @@
         @csrf
 
         <h1 class="text-2xl font-normal mb-10 text-center">
-            Let's start something new
+            Edit your project
         </h1>
 
         <div class="field mb-6">
