@@ -32,7 +32,8 @@ class ProjectsController extends Controller
     {
         $attributes = request()->validate([
             'title' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'notes' => 'min:5'
             ]);
 
         // $attributes['owner_id'] = auth()->id(); //This is the same as below but below is refactored
@@ -40,6 +41,17 @@ class ProjectsController extends Controller
         // Project::create($attributes); //Creating the project with the old code commented above. The refactored line takes care of it already
 
         $project = auth()->user()->projects()->create($attributes);
+
+        return redirect($project->path());
+    }
+
+    public function update(Project $project)
+    {
+        if (auth()->user()->isNot($project->owner)) {
+            abort(301);
+        }
+
+        $project->update(request(['notes']));
 
         return redirect($project->path());
     }
