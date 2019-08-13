@@ -7,4 +7,4 @@
 *Need to do next on the project: Align Project Card on Project Show page*
 
 ### Project still under development and we need to hurry
-#### Version 0.0.0.536
+#### Version 0.0.0.537
