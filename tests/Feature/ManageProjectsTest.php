@@ -29,7 +29,7 @@ class ManageProjectsTest extends TestCase
     /** @test */
     public function a_user_can_create_a_project()
     {
-        // $this->withoutExceptionHandling();
+        $this->withoutExceptionHandling();
 
         $this->signIn();
 
@@ -74,6 +74,18 @@ class ManageProjectsTest extends TestCase
 
         $this->assertDatabaseHas('projects', $attributes);
     }
+
+        /** @test */
+        public function a_user_can_update_a_projects_general_notes()
+        {
+            $project = ProjectFactory::create();
+
+            $this->actingAs($project->owner)
+                -> patch($project->path(), $attributes = ['notes' => 'Changed']);
+
+            $this->assertDatabaseHas('projects', $attributes);
+        }
+
 
     /** @test */
     public function a_user_can_view_their_project()
@@ -131,3 +143,4 @@ class ManageProjectsTest extends TestCase
         $this->post('/projects', $attributes)->assertSessionHasErrors('description');
     }
 }
+
