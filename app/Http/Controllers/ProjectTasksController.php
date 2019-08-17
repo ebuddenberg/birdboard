@@ -35,8 +35,6 @@ class ProjectTasksController extends Controller
         //     'completed' => request()->has('completed')
         // ]);
 
-        $task->complete();
-
         return redirect($project->path());
     }
 }
