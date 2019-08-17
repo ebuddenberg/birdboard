@@ -29,12 +29,13 @@ class Project extends Model
         return $this->tasks()->create(compact('body'));
     }
 
-    public function recordActivity($type)
+    public function recordActivity($description)
     {
-        Activity::create([
-            'project_id' => $this->id,
-            'description' => $type
-        ]);
+        $this->activity()->create(compact('description'));
+        // Activity::create([
+        //     'project_id' => $this->id,
+        //     'description' => $type
+        // ]); Refactored to use the activity relationship we have below
     }
 
     public function activity()
