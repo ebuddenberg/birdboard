@@ -17,7 +17,7 @@ class ActivityFeedTest extends TestCase
         $project = ProjectFactory::create();
 
         $this->assertCount(1, $project->activity);
-        $this->assertEquals('created', $project->activity[0]->description);
+        $this->assertEquals('project_created', $project->activity[0]->description);
     }
 
     /** @test */
@@ -28,7 +28,7 @@ class ActivityFeedTest extends TestCase
         $project->update(['title' => 'Changed']);
 
         $this->assertCount(2, $project->activity);
-        $this->assertEquals('updated', $project->activity->last()->description);
+        $this->assertEquals('project_updated', $project->activity->last()->description);
     }
 
     /** @test */
@@ -39,12 +39,13 @@ class ActivityFeedTest extends TestCase
         $project->addTask('Some task');
 
         $this->assertCount(2, $project->activity);
-        $this->assertEquals('created_task', $project->activity->last()->description);
+        $this->assertEquals('task_created', $project->activity->last()->description);
     }
 
     /** @test */
     public function completing_a_task_records_project_activity()
     {
+        $this->withoutExceptionHandling();
         $project = ProjectFactory::withTasks(1)->create();
 
         $this->actingAs($project->owner)
@@ -52,9 +53,9 @@ class ActivityFeedTest extends TestCase
                 'body' => 'foobar',
                 'completed' => true
             ]);
-
+                dd($project->activity);
         $this->assertCount(3, $project->activity);
-        $this->assertEquals('completed_task', $project->activity->last()->description);
+        $this->assertEquals('task_completed', $project->activity->last()->description);
     }
 
 }
