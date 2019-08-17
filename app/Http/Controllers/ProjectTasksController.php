@@ -33,7 +33,7 @@ class ProjectTasksController extends Controller
         // $task->update([
         //     'body' => request('body'),
         //     'completed' => request()->has('completed')
-        // ]);
+        // ]); Moved to a method on the Task Model
 
         return redirect($project->path());
     }
