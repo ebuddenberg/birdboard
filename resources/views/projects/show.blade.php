@@ -69,8 +69,18 @@
                 </div>
             </div>
 
-            <div class="lg:w-1/4 px-3 mt-10">
+            <div class="lg:w-1/4 px-3 lg:py-10">
                 @include('projects.card')
+
+                <div class="card mt-3">
+                    <ul>
+                        @foreach ($project->activity as $activity)
+                            <li class="{{ $loop->last ? '' : 'mb-1' }}">
+                                @include("projects.activity.{$activity->description}")
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
