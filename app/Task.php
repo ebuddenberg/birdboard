@@ -14,18 +14,18 @@ class Task extends Model
         'completed' => 'boolean'
     ];
 
-    protected static function boot()
-    {
-        parent::boot();
+    // protected static function boot()
+    // {
+    //     parent::boot();
 
-        static::created(function ($task) {
-            $task->project->recordActivity('task_created');
+    //     static::created(function ($task) {
+    //         $task->project->recordActivity('task_created');
 
             // Activity::create([
             //     'project_id' => $task->project->id,
             //     'description' => 'created_task'
             // ]); Moved to the project model App\Project.php
-        });
+        // });
 
         // static::updated(function ($task) {
         //     if (! $task->completed) return;
@@ -37,7 +37,11 @@ class Task extends Model
                 //     'description' => 'completed_task'
                 // ]); Moved to the project model App\Project.php
             // });
-        }
+
+        //     static::deleted(function ($task) {
+        //         $task->project->recordActivity('task_deleted');
+        //     });
+        // } All of this was moved to a dedicated Task Observer
 
     public function complete()
     {
@@ -49,6 +53,8 @@ class Task extends Model
     public function incomplete()
     {
         $this->update(['completed' => false]);
+
+        $this->project->recordActivity('task_incompleted');
     }
 
     public function project()
