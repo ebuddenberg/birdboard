@@ -35,13 +35,13 @@ class Project extends Model
     {
         $this->activity()->create([
             'description' => $description,
-            'changes' => $this->activityChanges($description)
+            'changes' => $this->activityChanges()
         ]);
     }
 
-    protected function activityChanges($description)
+    protected function activityChanges()
     {
-        if ($description == 'project_updated') {
+        if ($this->wasChanged()) {
             return [
                 'before' => array_except(array_diff($this->old, $this->getAttributes()), 'updated_at'),
                 'after' => array_except($this->getChanges(), 'updated_at')
