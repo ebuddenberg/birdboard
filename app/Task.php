@@ -8,8 +8,6 @@ class Task extends Model
 {
     use RecordsActivity;
 
-    public $old = [];
-
     protected $guarded = [];
 
     protected $touches = ['project'];
@@ -17,6 +15,8 @@ class Task extends Model
     protected $casts = [
         'completed' => 'boolean'
     ];
+
+    protected static $recordableEvents = ['created', 'deleted'];
 
     // protected static function boot()
     // {
@@ -51,7 +51,7 @@ class Task extends Model
     {
         $this->update(['completed' => true]);
 
-        $this->recordActivity('task_completed');
+        $this->recordActivity('completed');
     }
 
     public function incomplete()
@@ -75,9 +75,4 @@ class Task extends Model
         //     'project_id' => $this->id,
         //     'description' => $type
         // ]); Refactored to use the activity relationship we have below
-
-    public function activity()
-    {
-        return $this->morphMany(Activity::class, 'subject')->latest();
-    }
 }

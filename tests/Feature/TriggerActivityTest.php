@@ -21,7 +21,7 @@ class TriggerActivityTest extends TestCase
         $this->assertCount(1, $project->activity);
 
         tap($project->activity->last(), function ($activity) {
-            $this->assertEquals('project_created', $activity->description);
+            $this->assertEquals('created', $activity->description);
             $this->assertNull($activity->changes);
         });
     }
@@ -37,7 +37,7 @@ class TriggerActivityTest extends TestCase
         $this->assertCount(2, $project->activity);
 
         tap($project->activity->last(), function ($activity) use ($originalTitle) {
-            $this->assertEquals('project_updated', $activity->description);
+            $this->assertEquals('updated', $activity->description);
 
             $expected = [
                 'before' => ['title' => $originalTitle],
@@ -58,7 +58,7 @@ class TriggerActivityTest extends TestCase
         $this->assertCount(2, $project->activity);
 
         tap($project->activity->last(), function ($activity) {
-            $this->assertEquals('task_created', $activity->description);
+            $this->assertEquals('created_task', $activity->description);
             $this->assertInstanceOf(Task::class, $activity->subject);
             $this->assertEquals('Some task', $activity->subject->body);
         });
@@ -79,7 +79,7 @@ class TriggerActivityTest extends TestCase
         $this->assertCount(3, $project->activity);
 
         tap($project->activity->last(), function ($activity) {
-            $this->assertEquals('task_completed', $activity->description);
+            $this->assertEquals('completed', $activity->description);
             $this->assertInstanceOf(Task::class, $activity->subject);
         });
 
