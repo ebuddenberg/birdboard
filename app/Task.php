@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
+    use RecordsActivity;
+
+    public $old = [];
+
     protected $guarded = [];
 
     protected $touches = ['project'];
@@ -67,17 +71,10 @@ class Task extends Model
         return "/projects/{$this->project->id}/tasks/{$this->id}";
     }
 
-    public function recordActivity($description)
-    {
-        $this->activity()->create([
-            'project_id' => $this->project_id,
-            'description' => $description
-        ]);
         // Activity::create([
         //     'project_id' => $this->id,
         //     'description' => $type
         // ]); Refactored to use the activity relationship we have below
-    }
 
     public function activity()
     {

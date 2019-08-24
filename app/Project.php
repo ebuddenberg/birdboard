@@ -7,9 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
+    use RecordsActivity;
     protected $guarded = [];
-
-    public $old = [];
 
     public function path()
     {
@@ -31,23 +30,6 @@ class Project extends Model
         return $this->tasks()->create(compact('body'));
     }
 
-    public function recordActivity($description)
-    {
-        $this->activity()->create([
-            'description' => $description,
-            'changes' => $this->activityChanges()
-        ]);
-    }
-
-    protected function activityChanges()
-    {
-        if ($this->wasChanged()) {
-            return [
-                'before' => array_except(array_diff($this->old, $this->getAttributes()), 'updated_at'),
-                'after' => array_except($this->getChanges(), 'updated_at')
-            ];
-        }
-    }
     // Activity::create([
     //     'project_id' => $this->id,
     //     'description' => $type
