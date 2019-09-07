@@ -2,19 +2,23 @@
 
 namespace Tests\Unit;
 
+use App\User;
+use App\Project;
+// use App\Activity;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
+// use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ActivityTest extends TestCase
 {
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    use RefreshDatabase;
+
+    /** @test */
+    public function it_has_a_user()
     {
-        $this->assertTrue(true);
+        $this->withoutExceptionHandling();
+        $project = factory(Project::class)->create();
+
+        $this->assertInstanceOf(User::class, $project->activity->first()->user);
     }
 }
