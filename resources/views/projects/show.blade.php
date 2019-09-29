@@ -64,19 +64,17 @@
                         <button class="button">Save</button>
                     </form>
 
-                    @if ($errors->any())
-                        <ul class="field mt-6 .list-none">
-                            @foreach ($errors->all() as $error)
-                                <li class="text-sm text-red-700">{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                    @endif
+                    @include ('errors')
                 </div>
             </div>
 
             <div class="lg:w-1/4 px-3 lg:py-10">
                 @include('projects.card')
                 @include('projects.activity.card')
+
+                @can('manage', $project)
+                    @incllude('projects.invite')
+                @endcan
             </div>
         </div>
     </main>
