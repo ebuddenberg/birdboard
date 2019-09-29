@@ -36,7 +36,11 @@ class ProjectsController extends Controller
 
         // Project::create($attributes); //Creating the project with the old code commented above. The refactored line takes care of it already
 
+        $invite = Project::class;
+
         $project = auth()->user()->projects()->create($this->validateRequest());
+
+        $project->invite(auth()->user());
 
         return redirect($project->path());
     }
