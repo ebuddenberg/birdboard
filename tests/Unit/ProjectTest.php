@@ -4,7 +4,6 @@ namespace Tests\Unit;
 
 use App\User;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ProjectTest extends TestCase
@@ -15,6 +14,7 @@ class ProjectTest extends TestCase
     public function it_has_a_path()
     {
         $project = factory('App\Project')->create();
+
         $this->assertEquals('/projects/' . $project->id, $project->path());
     }
 
@@ -29,7 +29,6 @@ class ProjectTest extends TestCase
     /** @test */
     public function it_can_add_a_task()
     {
-        $this->withoutExceptionHandling();
         $project = factory('App\Project')->create();
 
         $task = $project->addTask('Test task');
@@ -39,7 +38,7 @@ class ProjectTest extends TestCase
     }
 
     /** @test */
-    public function it_can_invite_a_user()
+    function it_can_invite_a_user()
     {
         $project = factory('App\Project')->create();
 
@@ -47,5 +46,4 @@ class ProjectTest extends TestCase
 
         $this->assertTrue($project->members->contains($user));
     }
-
 }

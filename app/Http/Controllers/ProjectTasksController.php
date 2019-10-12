@@ -7,6 +7,13 @@ use App\Task;
 
 class ProjectTasksController extends Controller
 {
+    /**
+     * Add a task to the given project.
+     *
+     * @param Project $project
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function store(Project $project)
     {
         $this->authorize('update', $project);
@@ -18,28 +25,21 @@ class ProjectTasksController extends Controller
         return redirect($project->path());
     }
 
+    /**
+     * Update the project.
+     *
+     * @param  Project $project
+     * @param  Task    $task
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
     public function update(Project $project, Task $task)
     {
         $this->authorize('update', $task->project);
 
         $task->update(request()->validate(['body' => 'required']));
 
-        // $method = request('completed') ? 'complete' : 'incomplete';
-
-        // $task->$method(); Changed to other dedicated method on the Task Model
-
         request('completed') ? $task->complete() : $task->incomplete();
-
-        // if (request('completed')) {
-        //     $task->complete();
-        // } else {
-        //     $task->incomplete();
-        // } Refactored to the two lines right above
-
-        // $task->update([
-        //     'body' => request('body'),
-        //     'completed' => request()->has('completed')
-        // ]); Moved to a method on the Task Model
 
         return redirect($project->path());
     }

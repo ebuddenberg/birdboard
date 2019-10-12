@@ -2,10 +2,9 @@
 
 namespace Tests\Unit;
 
-use App\Project;
 use App\User;
-use Tests\TestCase;
 use Facades\Tests\Setup\ProjectFactory;
+use Tests\TestCase;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -14,7 +13,7 @@ class UserTest extends TestCase
     use RefreshDatabase;
 
     /** @test */
-    public function has_projects()
+    public function a_user_has_projects()
     {
         $user = factory('App\User')->create();
 
@@ -22,7 +21,7 @@ class UserTest extends TestCase
     }
 
     /** @test */
-    public function a_user_has_accessible_projects()
+    function a_user_has_accessible_projects()
     {
         $john = $this->signIn();
 
@@ -33,11 +32,11 @@ class UserTest extends TestCase
         $sally = factory(User::class)->create();
         $nick = factory(User::class)->create();
 
-        $Project = tap(ProjectFactory::ownedBy($sally)->create())->invite($nick);
+        $project = tap(ProjectFactory::ownedBy($sally)->create())->invite($nick);
 
         $this->assertCount(1, $john->accessibleProjects());
 
-        $Project->invite($john);
+        $project->invite($john);
 
         $this->assertCount(2, $john->accessibleProjects());
     }

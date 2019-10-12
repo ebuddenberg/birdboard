@@ -3,18 +3,16 @@
 namespace Tests\Feature;
 
 use App\Task;
-use Tests\TestCase;
 use Facades\Tests\Setup\ProjectFactory;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Setup\ProjectFactory as TestsProjectFactory;
+use Tests\TestCase;
 
 class TriggerActivityTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function creating_a_project()
+    function creating_a_project()
     {
         $project = ProjectFactory::create();
 
@@ -22,12 +20,13 @@ class TriggerActivityTest extends TestCase
 
         tap($project->activity->last(), function ($activity) {
             $this->assertEquals('created_project', $activity->description);
+
             $this->assertNull($activity->changes);
         });
     }
 
     /** @test */
-    public function updating_a_project()
+    function updating_a_project()
     {
         $project = ProjectFactory::create();
         $originalTitle = $project->title;
@@ -49,7 +48,7 @@ class TriggerActivityTest extends TestCase
     }
 
     /** @test */
-    public function creating_a_new_task()
+    function creating_a_new_task()
     {
         $project = ProjectFactory::create();
 
@@ -65,9 +64,8 @@ class TriggerActivityTest extends TestCase
     }
 
     /** @test */
-    public function completing_a_task()
+    function completing_a_task()
     {
-        // $this->withoutExceptionHandling();
         $project = ProjectFactory::withTasks(1)->create();
 
         $this->actingAs($project->owner)
@@ -79,16 +77,14 @@ class TriggerActivityTest extends TestCase
         $this->assertCount(3, $project->activity);
 
         tap($project->activity->last(), function ($activity) {
-            $this->assertEquals('completed', $activity->description);
+            $this->assertEquals('completed_task', $activity->description);
             $this->assertInstanceOf(Task::class, $activity->subject);
         });
-
     }
 
     /** @test */
-    public function incompleting_a_task()
+    function incompleting_a_task()
     {
-        // $this->withoutExceptionHandling();
         $project = ProjectFactory::withTasks(1)->create();
 
         $this->actingAs($project->owner)
@@ -108,11 +104,11 @@ class TriggerActivityTest extends TestCase
 
         $this->assertCount(4, $project->activity);
 
-        $this->assertEquals('task_incompleted', $project->activity->last()->description);
+        $this->assertEquals('incompleted_task', $project->activity->last()->description);
     }
 
     /** @test */
-    public function deleting_a_task()
+    function deleting_a_task()
     {
         $project = ProjectFactory::withTasks(1)->create();
 

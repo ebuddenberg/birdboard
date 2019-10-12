@@ -14,7 +14,6 @@ trait RecordsActivity
     /**
      * Boot the trait.
      */
-
     public static function bootRecordsActivity()
     {
         foreach (self::recordableEvents() as $event) {
@@ -22,7 +21,7 @@ trait RecordsActivity
                 $model->recordActivity($model->activityDescription($event));
             });
 
-            if($event === 'updated') {
+            if ($event === 'updated') {
                 static::updating(function ($model) {
                     $model->oldAttributes = $model->getOriginal();
                 });
@@ -33,7 +32,7 @@ trait RecordsActivity
     /**
      * Get the description of the activity.
      *
-     * @param string $description
+     * @param  string $description
      * @return string
      */
     protected function activityDescription($description)
@@ -42,7 +41,7 @@ trait RecordsActivity
     }
 
     /**
-     * Fetch the model events that should trigger activity
+     * Fetch the model events that should trigger activity.
      *
      * @return array
      */
@@ -51,6 +50,7 @@ trait RecordsActivity
         if (isset(static::$recordableEvents)) {
             return static::$recordableEvents;
         }
+
         return ['created', 'updated'];
     }
 
@@ -59,7 +59,6 @@ trait RecordsActivity
      *
      * @param string $description
      */
-
     public function recordActivity($description)
     {
         $this->activity()->create([
@@ -77,6 +76,10 @@ trait RecordsActivity
      */
     public function activity()
     {
+        if (get_class($this) === Project::class) {
+            return $this->hasMany(Activity::class)->latest();
+        }
+
         return $this->morphMany(Activity::class, 'subject')->latest();
     }
 
@@ -85,13 +88,16 @@ trait RecordsActivity
      *
      * @return array|null
      */
-
     protected function activityChanges()
     {
         if ($this->wasChanged()) {
             return [
-                'before' => array_except(array_diff($this->oldAttributes, $this->getAttributes()), 'updated_at'),
-                'after' => array_except($this->getChanges(), 'updated_at')
+                'before' => array_except(
+                    array_diff($this->oldAttributes, $this->getAttributes()), 'updated_at'
+                ),
+                'after' => array_except(
+                    $this->getChanges(), 'updated_at'
+                )
             ];
         }
     }
