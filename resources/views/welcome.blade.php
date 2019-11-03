@@ -84,9 +84,11 @@
                     Birdboard
                 </div>
 
-                <div class="links">
-                    <a href="/login">Login</a>
-                </div>
+                @if (!auth()->user())
+                    <div class="links">
+                        <a href="/login">Login</a>
+                    </div>
+                @endif
             </div>
         </div>
     </body>
